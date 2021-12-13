@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.2" fx:controller="com.example.labor6.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <Accordion>
+     <panes>
+       <TitledPane animated="false" text="untitled 1">
+         <content>
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+         </content>
+       </TitledPane>
+       <TitledPane animated="false" text="untitled 2">
+         <content>
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+         </content>
+       </TitledPane>
+     </panes>
+   </Accordion>
+   <ButtonBar prefHeight="40.0" prefWidth="200.0">
+     <buttons>
+       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+            <children>
+           <AnchorPane layoutX="96.0" layoutY="39.0" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="217.0" />
+             <TitledPane animated="false" layoutX="11.0" layoutY="19.0" text="untitled 3" />
+            </children>
+         </AnchorPane>
+     </buttons>
+   </ButtonBar>
+   <ScrollPane prefHeight="200.0" prefWidth="200.0">
+      <content>
+         <TitledPane prefHeight="200.0" prefWidth="200.0">
+            <content>
+             <Button mnemonicParsing="false" text="Button" />
+            </content>
+         </TitledPane>
+      </content>
+   </ScrollPane>
+
+    <Label fx:id="welcomeText" />
+    <Button onAction="#onHelloButtonClick" text="Hello!" />
+</VBox>
