@@ -1,59 +1,52 @@
 package Model;
 
-import Model.Person;
+
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
+/**
+ * class describing what a teacher is
+ */
 public class Teacher extends Person {
     private List<Course> courses;
-    private long teacherID;
-    private   String Name;
-    private String Surname;
-    private Teacher(long ID, String Name, String Surname){
-        this.teacherID=ID;
-        this.Name=Name;
-        this.Surname=Surname;
+    private int TeacherId;
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", courses=" + courses +
+                ", TeacherId=" + TeacherId +
+                '}';
+    }
+
+    /**
+     * constructor for the class teacher
+     * @param courses the list of courses that one teacher teaches
+     */
+    public Teacher(String firstname,String lastname,List<Course> courses, int TeacherId) {
+        super(firstname,lastname);
+        super.firstname=firstname;
+        super.lastname=lastname;
+        this.courses = courses;
+        this.TeacherId = TeacherId;
+
     }
 
     public List<Course> getCourses() {
         return courses;
     }
 
+    public int getTeacherId() {
+        return TeacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        TeacherId = teacherId;
+    }
+
     public void setCourses(List<Course> courses) {
         this.courses = courses;
-    }
-
-    public long getTeacherID() {
-        return teacherID;
-    }
-
-    public void setTeacherID(long teacherID) {
-        this.teacherID = teacherID;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public String getSurname() {
-        return Surname;
-    }
-
-    public void setSurname(String surname) {
-        Surname = surname;
-    }
-    public List<Student> allStudentsInCourse(Course course){
-        for (Course c: this.getCourses()
-             ) {
-            if(c.getCourseID() == course.getCourseID()){
-                return c.getStudentsEnrolled();
-            }
-        }
-        throw  new NoSuchElementException("Course not found");
     }
 }

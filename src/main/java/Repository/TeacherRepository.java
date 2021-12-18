@@ -1,88 +1,117 @@
 package Repository;
-import Model.Teacher;
 
-import java.io.IOException;
+import Model.*;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeacherRepository  {
+public class TeacherRepo implements ICrudRepository<Teacher> {
+    public TeacherRepo(){
 
-public List<Teacher> allTeachers(){
-    return null;
-    //todo db or json
-}
-    /**
-     * this method deletes the teacher by id
-     * @param id
-     */
-   // @Override
-//    public void delete(long id) {
-//        int i=0;
-//        while(i<teacherList.size()){
-//            i++;
-//            if(teacherList.get(i).teacherID==id){
-//                teacherList.remove(i);
-//            }
-//        }
-//    }
-//
-//    /**
-//     * this method updates the teacher by id
-//     * @param id
-//     * @throws Exception
-//     */
-//
-//    @Override
-//    public void update(long id) throws Exception{
-//        throw new Exception();
-//    }
-//
-//    public void update(long id,String Name,String Surname){
-//        int i=0;
-//        while(i<teacherList.size()){
-//            i++;
-//            if(teacherList.get(i).teacherID==id){
-//                teacherList.set(i, new Teacher(id, Name, Surname));
-//            }
-//        }
-//    }
-//
-//    /**
-//     *  method for create a new object, a new teacher and add in the list
-//     * @throws Exception
-//     */
-//
-//
-//    @Override
-//    public void create() throws Exception{
-//        throw new Exception();
-//    }
-//
-//    public void create(int ID, String Name, String Surname) throws IOException {
-//        Teacher auxTeacher = new Teacher(ID,Name, Surname);
-//        teacherList.add(auxTeacher);
-//
-//    }
-//
-//    /**
-//     * this method prints the list of teachers
-//     * @param id
-//     */
-//
-//    @Override
-//    public void read(long id) {
-//
-//        int i=0;
-//        while(i<teacherList.size()){
-//            i++;
-//            if(teacherList.get(i).teacherID==id){
-//                System.out.println(teacherList.get(i));
-//
-//                i=teacherList.size()+1;
-//            }
-//        }
-//
-//
-//    }
+    }
 
+
+    @Override
+    public Teacher create(Teacher obj) {
+        try (Connection con = DriverManager
+                .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+            Statement statement = null;
+            //getting all the values from Teacher
+            String Query = "insert into University.Teacher(FirstName, LastName, TeacherID) Values ("+"'"+obj.getFirstname()+"'" + ","+"'"+obj.getLastname()+"'"+","+"'"+obj.getTeacherId()+"'"+")";
+            statement=con.createStatement();
+            int rowcount = statement.executeUpdate(Query);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
+    }
+
+    @Override
+    public List<Teacher> getAll(){
+        List<Teacher> allTeachers = new ArrayList<>();
+        //setting up the connection
+        try (Connection con = DriverManager
+                .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+            Statement statement = null;
+            //getting all the values from Student
+            String Query = "select * From University.Teacher";
+            statement=con.createStatement();
+            ResultSet resultSet= statement.executeQuery(Query);
+
+            while(resultSet.next()){
+                Teacher parsingTeacher = new Teacher("","",null,0);
+                parsingTeacher.setFirstname(resultSet.getString("FirstName"));
+                parsingTeacher.setLastname(resultSet.getString("LastName"));
+                //adding all the students into the student list
+                allTeachers.add(parsingTeacher);
+                parsingTeacher=null;
+            }
+
+
+            for (Teacher teacher :allTeachers
+            ) {
+                String joins = "select * from  University.Course " +
+                        "inner join University.TeacherCourse" +
+                        " on Course.CourseId=University.TeacherCourse.CourseId" +
+                        " inner join University.Teacher" +
+                        " on TeacherCourse.TeacherId=Teacher.TeacherID" +
+                        " where University.TeacherCourse.TeacherId =" + teacher.getTeacherId();
+                Statement stm = con.createStatement();
+                ResultSet Courseset = stm.executeQuery(joins);
+                List<Course> courseList = new ArrayList<>();
+                while(Courseset.next()){
+                    Course parsingCourse = new Course("",null,0,0,null);
+                    parsingCourse.setName(Courseset.getString("Name"));
+                    parsingCourse.setMaxEnrollment(Courseset.getInt("MaxEnrollment"));
+                    parsingCourse.setCredits(Courseset.getInt("Credits"));
+                    parsingCourse.setCourseId(Courseset.getInt("CourseId"));
+                    courseList.add(parsingCourse);
+                    parsingCourse=null;
+                }
+                teacher.setCourses(courseList);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allTeachers;
+
+
+    }
+
+    @Override
+    public Teacher update(Teacher obj) {
+        try (Connection con = DriverManager
+                .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+            Statement statement = null;
+            //getting all the values from Student
+            String Query = "update University.Teacher set FirstName = " + obj.getFirstname() + " where TeacherId ="+obj.getTeacherId();
+            statement=con.createStatement();
+            int rowcount= statement.executeUpdate(Query);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void delete(Teacher obj) {
+
+        try (Connection con = DriverManager
+                .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+            Statement statement = null;
+            //getting all the values from Student
+            String Query = "delete from University.Teacher where TeacherId = "+obj.getTeacherId();
+            statement=con.createStatement();
+            int rowcount= statement.executeUpdate(Query);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

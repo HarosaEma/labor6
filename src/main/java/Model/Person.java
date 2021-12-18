@@ -1,22 +1,30 @@
 package Model;
 
-public abstract class Person {
-    private String firstName;
-    private String lastName;
+/**
+ *class defining a person
+ */
+public class Person {
+    protected String firstname;
+    protected String lastname;
 
-    public String getFirstName() {
-        return firstName;
+    public Person(String firstname, String lastname) {
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 }

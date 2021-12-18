@@ -1,27 +1,52 @@
 package Model;
 
-import Model.Person;
-import Model.Student;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
+/**
+ * the class for defining what a COURSE is
+ */
 public class Course {
     private String name;
     private Person teacher;
     private int maxEnrollment;
-    private List<Student> studentsEnrolled;
     private int credits;
-    private long courseID;
+    private List<Student> studentsEnrolled;
+    private int CourseId;
 
-    public Course(long ID, String name,int credits,Person teacher,int maxEnrollment){
-        this.courseID=ID;
-        this.name=name;
-        this.credits=credits;
-        this.teacher=teacher;
-        this.maxEnrollment=maxEnrollment;
-        this.studentsEnrolled=new ArrayList<Student>();
+    public int getCourseId() {
+        return CourseId;
+    }
+
+    public void setCourseId(int courseId) {
+        CourseId = courseId;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "name='" + name + '\'' +
+                ", teacher=" + teacher +
+                ", maxEnrollment=" + maxEnrollment +
+                ", credits=" + credits +
+                ", studentsEnrolled=" + studentsEnrolled +
+                ", CourseId=" + CourseId +
+                '}';
+    }
+
+    /**
+     *  @param name the name of the course
+     * @param teacher the Teacher which teaches it
+     * @param maxEnrollment the maximum number of students that can part-take the course
+     * @param credits the amount of credits the course has
+     * @param studentsEnrolled the list of students currently tqking the course
+     */
+    public Course(String name, Person teacher, int maxEnrollment, int credits, List<Student> studentsEnrolled) {
+        this.name = name;
+        this.teacher = teacher;
+        this.maxEnrollment = maxEnrollment;
+        this.credits = credits;
+        this.studentsEnrolled = studentsEnrolled;
+        this.CourseId = CourseId;
     }
 
     public String getName() {
@@ -48,14 +73,6 @@ public class Course {
         this.maxEnrollment = maxEnrollment;
     }
 
-    public List<Student> getStudentsEnrolled() {
-        return studentsEnrolled;
-    }
-
-    public void setStudentsEnrolled(List<Student> studentsEnrolled) {
-        this.studentsEnrolled = studentsEnrolled;
-    }
-
     public int getCredits() {
         return credits;
     }
@@ -64,23 +81,16 @@ public class Course {
         this.credits = credits;
     }
 
-    public long getCourseID() {
-        return courseID;
+    public List<Student> getStudentsEnrolled() {
+        return studentsEnrolled;
     }
 
-    public void setCourseID(long courseID) {
-        this.courseID = courseID;
+    public void setStudentsEnrolled(List<Student> studentsEnrolled) {
+        this.studentsEnrolled = studentsEnrolled;
     }
 
-    public boolean register(Student student){
-        if(this.maxEnrollment >this.studentsEnrolled.size()){
-           this.studentsEnrolled.add(student);
-           this.maxEnrollment++;
-           return true;
-        }
-        else{
-            throw new NoSuchElementException("Element not found");
-        }
+    public void addStudent(Student student){
+        this.studentsEnrolled.add(student);
 
     }
 }

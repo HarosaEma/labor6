@@ -1,84 +1,150 @@
 package Repository;
 
+import Model.*;
 import Model.Course;
-import Model.Teacher;
+import Model.ICrudRepository;
 
+import javax.xml.transform.Result;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseRepository {
-   public List<Course> allCourses(){
-      return null;
-      //todo json or db
+class CourseRepo implements ICrudRepository<Course> {
+
+
+   public CourseRepo() {
+
    }
 
-    /**
-     *  this method deletes the course by id
-     * @param id
-     */
-//    @Override
-//    public void delete(long id) {
-//        int i=0;
-//        while(i<courseList.size()){
-//            i++;
-//            if(courseList.get(i).getCourseID()==id){
-//                courseList.remove(i);
-//            }
-//        }
-//    }
-//
-//    /**
-//     * this method update the course by id
-//     * @param id
-//     * @throws Exception
-//     */
-//
-//    @Override
-//    public void update(long id) throws Exception {
-//        throw new Exception();
-//    }
-//    public void update(long id, String Name, int credits, Teacher teacher, int maxEnrollment){
-//        int i=0;
-//        while(i<courseList.size()){
-//            i++;
-//            if(courseList.get(i).courseID==id){
-//                courseList.set(i, new Course(id, Name,credits,teacher,maxEnrollment));
-//            }
-//        }
-//    }
-//
-//    /**
-//     * method for create a new object, a new course and add in the list
-//     * @throws Exception
-//     */
-//
-//
-//    @Override
-//    public void create() throws Exception {
-//        throw new Exception();
-//    }
-//
-//    public void create(long ID, String Name, int credits, Teacher teacher, int maxEnrollment) {
-//        Course auxCourse = new Course(ID,Name,credits,teacher,maxEnrollment);
-//        courseList.add(auxCourse);
-//    }
-//
-//    /**
-//     * this method prints the list of courses
-//     * @param id
-//     */
-//
-//    @Override
-//    public void read(long id) {
-//        int i=0;
-//        while(i<courseList.size()){
-//            i++;
-//            if(courseList.get(i).courseID==id){
-//                System.out.println(courseList.get(i));
-//                i=courseList.size()+1;
-//            }
-//        }
-//
-//    }
+   @Override
+   public Course create(Course obj) {
+      try (Connection con = DriverManager
+              .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+         Statement statement = null;
+         //getting all the values from Student
+         String Query = "insert into University.Course(Name, Credits, MaxEnrollment, CourseId) Values ("+"'"+obj.getName()+"'" + ","+"'"+obj.getCredits()+"'"+","+"'"+obj.getMaxEnrollment()+"'"+","+"'"+obj.getCourseId()+"'"+")";
+         statement=con.createStatement();
+         int rowcount= statement.executeUpdate(Query);
 
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
+
+      return obj;
+   }
+
+   @Override
+   public List<Course> getAll() {
+
+      List<Course> allCourses= new ArrayList<>();
+      //setting up the connection
+      try (Connection con = DriverManager
+              .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+         Statement statement = null;
+         //getting all the values from Student
+         String Query = "select * From University.Course";
+         statement=con.createStatement();
+         ResultSet resultSet= statement.executeQuery(Query);
+         Course parsingCourse = new Course("",null,0,0,null);
+         while(resultSet.next()){
+            parsingCourse.setName(resultSet.getString("Name"));
+            parsingCourse.setCredits(resultSet.getInt("Credits"));
+            parsingCourse.setMaxEnrollment(resultSet.getInt("MaxEnrollment"));
+            parsingCourse.setCourseId(resultSet.getInt("CourseId"));
+            //adding all the courses into the student list
+            allCourses.add(parsingCourse);
+         }
+         //setting the students for each course
+         for (Course course:allCourses
+         ) {
+
+            String joins= " select * from University.Student" +
+                    " inner join StudentCourse " +
+                    "on University.Student.StudentId = StudentCourse.StudentId" +
+                    " inner join Course on StudentCourse.CourseId = Course.CourseId" +
+                    " where Course.CourseId = "+course.getCourseId();
+
+            Statement stm=con.createStatement();
+            ResultSet Studentset = stm.executeQuery(joins);//getting all the studnts enrolled in a course
+            List<Student> studentList = new ArrayList<>();
+            while(Studentset.next()){
+               Student parsingStudent = new Student("","",0,0,null);
+               parsingStudent.setFirstname(Studentset.getString("FirstName"));
+               parsingStudent.setLastname(Studentset.getString("LastName"));
+               parsingStudent.setTotalCredits(Studentset.getInt("Credits"));
+               parsingStudent.setStudentId(Studentset.getInt("StudentId"));
+               studentList.add(parsingStudent);
+               parsingStudent=null;
+            }
+            course.setStudentsEnrolled(studentList);
+
+            //setting the teacher for each course
+
+            String currentteacher="Select * From Teacher" +
+                    " Inner Join TeacherCourse " +
+                    "on Teacher.TeacherID = TeacherCourse.TeacherId" +
+                    " Inner Join Course " +
+                    "on TeacherCourse.CourseId = "+ course.getCourseId();
+            ResultSet teacher=stm.executeQuery(currentteacher);
+            Teacher parsingTeacher = new Teacher("","",null,0);
+            parsingTeacher.setFirstname(teacher.getString("FirstName"));
+            parsingTeacher.setLastname(teacher.getString("LastName"));
+            parsingTeacher.setTeacherId(teacher.getInt("TeacherID"));
+            course.setTeacher(parsingTeacher);
+         }
+
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
+      return allCourses;
+   }
+
+
+
+   @Override
+   public Course update(Course obj) {
+      try (Connection con = DriverManager
+              .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+         Statement statement = null;
+         //getting all the values from Student
+         String Query = "update University.Course set Name = " + obj.getName() + " where CourseId = "+obj.getCourseId();
+         statement=con.createStatement();
+         int rowcount= statement.executeUpdate(Query);
+
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
+      return null;
+   }
+
+   @Override
+   public void delete(Course obj) {
+
+      try (Connection con = DriverManager
+              .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+         Statement statement = null;
+         //getting all the values from Course
+         String Query = "delete from University.Course where CourseId = "+obj.getCourseId();
+         statement=con.createStatement();
+         int rowcount= statement.executeUpdate(Query);
+
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
+   }
+
+   public boolean FindCourseId(int id){
+      try (Connection con = DriverManager
+              .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+         Statement statement = null;
+
+         String Query = "Select * From Course where id = " + id;
+         statement=con.createStatement();
+         ResultSet resultSet= statement.executeQuery(Query);
+
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
+      throw  new IllegalArgumentException("Course not found");
+   }
 }

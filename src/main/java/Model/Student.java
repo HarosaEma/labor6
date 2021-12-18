@@ -1,29 +1,52 @@
 package Model;
 
-import Model.Person;
-import UIController.CourseController;
+import Repository.CourseRepo;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
+/**
+ * class extending the person and also describing what student
+ */
 public class Student extends Person {
-    public long studentID;
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", studentId=" + studentId +
+                ", totalCredits=" + totalCredits +
+                ", enrolledCourses=" + enrolledCourses +
+                '}';
+    }
+
+    private long studentId;
     private int totalCredits;
-    private List<Course> enrolledCourse;
-    public Student(long ID, String Name, String Surname){
-        super();
-        this.studentID=ID;
+    private List<Course> enrolledCourses;
 
-        totalCredits=0;
+    /**
+     * constructor for the Student class
+     * @param studentId id for a student
+     * @param totalCredits the number of credits accumulated along the years by the student
+     * @param enrolledCourses the courses that one student takes currently
+     */
+    public Student(String Firstname,String Lastname,long studentId, int totalCredits, List<Course> enrolledCourses) {
+        super(Firstname,Lastname);
+        super.firstname=Firstname;
+        super.lastname=Lastname;
+        this.studentId = studentId;
+        this.totalCredits = totalCredits;
+        this.enrolledCourses = enrolledCourses;
     }
 
-    public long getStudentID() {
-        return studentID;
+    public long getStudentId() {
+        return studentId;
     }
 
-    public void setStudentID(long studentID) {
-        this.studentID = studentID;
+    public void setStudentId(long studentId) {
+        this.studentId = studentId;
     }
 
     public int getTotalCredits() {
@@ -34,25 +57,9 @@ public class Student extends Person {
         this.totalCredits = totalCredits;
     }
 
-    public List<Course> getEnrolledCourse() {
-        return enrolledCourse;
+    public void setEnrolledCourses(List<Course> enrolledCourses) {
+        this.enrolledCourses = enrolledCourses;
     }
 
-    public void setEnrolledCourse(List<Course> enrolledCourse) {
-        this.enrolledCourse = enrolledCourse;
-    }
 
-    public boolean registerToCourse(Course course) {
-        CourseController controller = new CourseController();
-        List<Course> allcourses = new ArrayList<>();
-        allcourses = controller.getAllCourses();
-        for (Course c : allcourses
-        ) {
-            if (c == course) {
-                course.register(this);
-                return true;
-            }
-        }
-        throw new NoSuchElementException("Course not found");
-    }
 }
