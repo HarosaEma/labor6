@@ -21,7 +21,7 @@ public class StudentRepo implements ICrudRepository<Student> {
     @Override
     public Student create(Student obj) {
         try (Connection con = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306/University", "root", "Access0740188658")) {
+                .getConnection("jdbc:mysql://localhost:3306/University", "root", "8parola6")) {
             Statement statement = null;
             //getting all the values from Student
             String Query = "insert into Student (FirstName,LastName,StudentId,Credits) Values (" + "'" + obj.getFirstname() + "'" + "," + "'" + obj.getLastname() + "'" + "," + "'" + obj.getStudentId() + "'" + "," + "'" + obj.getTotalCredits() + "'" + ");";
@@ -41,7 +41,7 @@ public class StudentRepo implements ICrudRepository<Student> {
         List<Student> allStudents = new ArrayList<>();
         //setting up the connection
         try (Connection con = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+                .getConnection("jdbc:mysql://localhost:3306", "root", "8parola6")) {
             Statement statement = null;
             //getting all the values from Student
             String Query = "select * From University.Student"; // getting the values of the parameters except the lists
@@ -95,7 +95,7 @@ public class StudentRepo implements ICrudRepository<Student> {
     @Override
     public Student update(Student obj) {
         try (Connection con = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+                .getConnection("jdbc:mysql://localhost:3306", "root", "8parola6")) {
             Statement statement = null;
             //getting all the values from Student
             String Query = "update University.Student set Credits = " + obj.getTotalCredits() + "where studentId = " + obj.getStudentId();
@@ -111,7 +111,7 @@ public class StudentRepo implements ICrudRepository<Student> {
     @Override
     public void delete(Student obj) {
         try (Connection con = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+                .getConnection("jdbc:mysql://localhost:3306", "root", "8parola6")) {
             Statement statement = null;
             //getting all the values from Student
             String Query = " delete from University.Student where studentId = " + obj.getStudentId();
@@ -128,7 +128,7 @@ public class StudentRepo implements ICrudRepository<Student> {
     public Student findStudent(String firstName, String lastName) {
 
         try (Connection con = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+                .getConnection("jdbc:mysql://localhost:3306", "root", "8parola6")) {
             Statement statement = null;
             //getting all the values from Student
             String Query = "Select * From University.Student where FirstName = " + "'"+firstName+ "'" + " and LastName = "+"'"+lastName+"'";
@@ -147,7 +147,7 @@ public class StudentRepo implements ICrudRepository<Student> {
 
     public List<Student> StudentsToCourse(Course course){
         try (Connection con = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306", "root", "Access0740188658")) {
+                .getConnection("jdbc:mysql://localhost:3306", "root", "8parola6")) {
 
             String Query="Select * from University.Student" +
                     " Inner Join University.StudentCourse " +

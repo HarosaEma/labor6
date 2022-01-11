@@ -76,7 +76,7 @@ public class StudentInterfaceController {
     }
 
     public Student getStudent() {
-        return student;
+        return instance.student;
     }
 
 

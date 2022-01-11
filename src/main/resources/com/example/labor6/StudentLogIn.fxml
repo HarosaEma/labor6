@@ -9,7 +9,7 @@
 <?import javafx.geometry.Insets?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
-          fx:controller="com.example.labor6.StudentLogIn"
+          fx:controller="com.example.labor6.StudentLogInController"
           prefHeight="400.0" prefWidth="600.0" vgap="8" hgap="10">
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
