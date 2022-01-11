@@ -8,6 +8,7 @@ module com.example.labor6 {
     requires java.xml;
     requires java.sql;
     requires java.desktop;
+    requires jdk.compiler;
 
     opens com.example.labor6 to javafx.fxml;
     exports com.example.labor6;

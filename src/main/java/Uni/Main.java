@@ -1,10 +1,10 @@
-package Model;
+package Uni;
 
-import Repository.CourseRepo;
-import Repository.StudentRepo;
-import Repository.TeacherRepo;
-import Model.Student;
-//import com.sun.source.tree.CompilationUnitTree;
+import Repo.CourseRepo;
+import Repo.StudentRepo;
+import Repo.TeacherRepo;
+import Uni.Student;
+import com.sun.source.tree.CompilationUnitTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException {
-        StudentRepo studentRepo = new StudentRepo();
+        StudentRepo studentRepo =new StudentRepo();
         CourseRepo courseRepo = new CourseRepo();
         TeacherRepo teacherRepo = new TeacherRepo();
         Student obj = new Student("FN","LN",0,30,null);

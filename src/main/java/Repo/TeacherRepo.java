@@ -1,6 +1,6 @@
-package Repository;
+package Repo;
 
-import Model.*;
+import Uni.*;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package UI;
+package com.example.labor6;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +12,10 @@ public class StudentLogInUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getClassLoader().getResource("resources/StudentLogIn.fxml"));
-        Parent root = fxmlLoader.load();
+                StudentLogInUI.class.getResource("StudentLogIn.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(),400,300);
         primaryStage.setTitle("Log in as Student");
-        primaryStage.setScene(new Scene(root,400,200));
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 }

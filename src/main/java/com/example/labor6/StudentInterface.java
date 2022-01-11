@@ -1,11 +1,10 @@
-package UI;
+package com.example.labor6;
 
-import Model.Student;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class StudentInterface extends Application {
@@ -13,11 +12,13 @@ public class StudentInterface extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader =new FXMLLoader(
-                getClass().getResource("resources/StudentInterface.fxml")
+                StudentInterface.class.getResource("StudentInterface.fxml")
         );
-        Parent root = fxmlLoader.load();
-        primaryStage.setTitle("Student Interface");
-        primaryStage.setScene(new Scene(root,400,200));
+        Scene scene  = new Scene(fxmlLoader.load(),800,400);
+        primaryStage.setTitle("LogIn Student");
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+
 }

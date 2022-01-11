@@ -1,6 +1,7 @@
-package Model;
+package Uni;
 
-import Repository.CourseRepo;
+
+import Repo.CourseRepo;
 
 import java.sql.*;
 import java.util.ArrayList;

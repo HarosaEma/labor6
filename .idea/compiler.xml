@@ -15,7 +15,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="labor6" options="--add-exports java.datatransfer/java.awt=com.example.labor6 --add-exports java.desktop/sun.font=com.example.labor6" />
+      <module name="labor6" options="" />
     </option>
   </component>
 </project>
